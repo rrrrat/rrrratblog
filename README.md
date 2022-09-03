@@ -5,8 +5,8 @@
 [![](https://img.shields.io/badge/COS_SDK-1.9.8-green.svg)]()
 [![](https://img.shields.io/badge/Django_MDeditor-0.1.18-green.svg)]()
 #### 介绍
-rrrrat Blog，当前使用sqlite数据库，后期会迁移至MySQL 支持markdown编写文章，文章文类，内容分享，正在逐步完善
-material风格，此项目纯属娱乐，如果有人觉得不错就告诉我，我继续优化
+##### rrrrat Blog，当前使用sqlite数据库，后期会迁移至MySQL 支持markdown编写文章，文章文类，内容分享，正在逐步完善
+##### material风格，此项目纯属娱乐，如果有人觉得不错就告诉我，我继续优化
 #### 演示站
 ```
 http://rrrrat.rwwww.cn/
