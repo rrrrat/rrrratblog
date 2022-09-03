@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %}
+    「{{ user.username }}」 - 资料修改
+{% endblock %}
+{% block content %}
+	<div class="content">
+		<div class="content-heading">
+			<div class="container">
+				<h1 class="heading" align="center">用户资料修改</h1>
+			</div>
+		</div>
+		<div class="container" align="center">
+			<section class="content-inner" >
+				<form class="form" align="center">
+					<fieldset>
+						<legend>「{{ user.username }}」</legend>
+                        {% csrf_token %}
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-text">email</label>
+									<input class="form-control" id="email" type="email" value="{{ user.email }}" disabled>
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-text">博客地址</label>
+									<input class="form-control" id="blog_address" type="url" value="{{ user.blog_address }}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-text">微信</label>
+									<input class="form-control" id="wechart" type="text" value="{{ user.wechart }}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-select-disabled">性别</label>
+									<select class="form-control" id="sex">
+										<option value="1">男</option>
+										<option value="0">女</option>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-text">QQ</label>
+									<input class="form-control" id="qq" type="text" value="{{ user.qq }}">
+								</div>
+							</div>
+						</div>
+						<div class="form-group form-group-label">
+							<div class="row">
+								<div class="col-lg-6 col-sm-8">
+									<label class="floating-label" for="float-textarea-disabled">介绍</label>
+									<textarea class="form-control" id="introduction" rows="5">{{ user.introduction }}</textarea>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+                    <div class="form-group-btn">
+                        <p1></p1>
+                    </div>
+					<div class="form-group-btn">
+						<button class="btn btn-blue waves-button waves-light waves-effect save" type="submit">保存</button>
+                        <button1 class="btn waves-button waves-effect" type="button"><a href="/">取消</a></button1>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/static/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript">
+        $("body").on("click",".save",function(){
+            $('button').attr('disabled', 'disabled').text('LOADING...');
+            $.ajax({
+                url:'{% url 'accounts:save_profile_edit' %}',
+                type:'POST',
+                data:{'blog_address':$('#blog_address').val(),
+                      'wechart':$('#wechart').val(),
+                      'sex':$('#sex').val(),
+                      'introduction':$('#introduction').val(),
+                      'qq':$('#qq').val(),
+                      'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()},
+                success:function(data){
+                    var dataObj=JSON.parse(data);
+                    if(dataObj['status']){
+                        $('button').removeAttr('disabled').text('保存');
+                        $('p1').text(dataObj.message)
+                    }
+                    else{
+                        $('button').removeAttr('disabled').text('保存');
+                        $('p1').text(dataObj.message)
+                    }
+                }
+            })
+        });
+    </script>
+{% endblock %}

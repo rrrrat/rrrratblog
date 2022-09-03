@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% block title %}
+{{ article.title }}
+{% endblock %}
+{% block css %}
+<link href="/static/editor.md/css/editormd.min.css" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+	<div class="content">
+		<div class="content-heading">
+			<div class="container container-full">
+                <h1 class="heading" align="center">{{ article.title }}</h1>
+                <div class="heading" align="center">作者：{{ article.author }}&nbsp;&nbsp;&nbsp;发布时间：{{ article.date_time | date:"Y年m月d日 H:i:s"  }}&nbsp;&nbsp;&nbsp;所属分类:{{ article.category.name }}</div>
+			</div>
+		</div>
+		<div class="container container-full">
+			<div class="row row-fix">
+				<div class="col-md-3 content-fix">
+					<div class="content-fix-scroll">
+						<div class="content-fix-wrap">
+							<div class="content-fix-inner">
+								<section class="content-inner">
+									<ul>
+                                        {% for toc in toc_list %}
+                                            <li><a>{{ toc.toc_count }}</a><a href="#{{ toc.toc_name }}">{{ toc.toc_name }}</a></li>
+                                        {% endfor %}
+									</ul>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<section class="content-inner">
+                        <div class="content-sub-heading"><h1>Content</h1></div>
+                        <div id="test-editormd-view">
+                            <textarea>{{ article.content }}</textarea>
+                        </div>
+					</section>
+
+                    <div class="form-group form-group-label">
+                        <div class="content-sub-heading"><h1>Comment</h1></div>
+                    {% if not user.is_anonymous %}
+                        <div class="row">
+                            {% csrf_token %}
+                            <div class="col-lg-12 col-sm-12">
+                                <label class="floating-label" for="float-textarea">畅所欲言吧！<br>CommentSize<=500</label>
+                                <textarea class="form-control" id="comment" rows="5"></textarea>
+                            </div>
+
+                            <div class="form-group-btn">
+                                <pre style="float: left"><p1></p1></pre>
+                                <button style="float: right" class="btn btn-blue waves-effect comment-commit" type="submit">发表</button>
+                            </div>
+                        </div>
+                    {% endif %}
+                        {% for comment in comments %}
+                        <div class="col-md-12">
+                            <blockquote>
+                                <p>@{{ comment.user_name.username }}</p>
+                                <pre>{{ comment.comment }}
+#{{ comment.create_time | date:'Y-m-d H:i:s' }}</pre>
+                            </blockquote>
+                        </div>
+                        {% endfor %}
+                    </div>
+				</div>
+				<div class="col-md-3 content-fix">
+					<div class="content-fix-scroll">
+						<div class="content-fix-wrap">
+							<div class="content-fix-inner">
+								<section class="content-inner">
+									<h2 class="content-sub-heading">最新文章</h2>
+									<div class="tile-wrap">
+                                        {% for article in article_top %}
+										<div class="tile">
+											<div class="pull-left tile-side">
+												<span class="icon">chevron_right</span>
+											</div>
+											<div class="tile-inner">
+                                                <span>「{{ article.category.name }}」<a href="{% url 'article:article' id=article.id %}">{{ article.title }}</a></span>
+											</div>
+										</div>
+                                        {% endfor %}
+									</div>
+								</section>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+{% block js %}
+<script src="/static/editor.md/examples/js/jquery.min.js"></script>
+<script src="/static/editor.md/lib/flowchart.min.js"></script>
+<script src="/static/editor.md/lib/jquery.flowchart.min.js"></script>
+<script src="/static/editor.md/lib/marked.min.js"></script>
+<script src="/static/editor.md/lib/prettify.min.js"></script>
+<script src="/static/editor.md/lib/raphael.min.js"></script>
+<script src="/static/editor.md/lib/sequence-diagram.min.js"></script>
+<script src="/static/editor.md/lib/underscore.min.js"></script>
+<script src="/static/editor.md/editormd.min.js"></script>
+<script type="text/javascript">
+{% if not user.is_anonymous %}
+$("body").on("click",".comment-commit",function(){
+    $('button').attr('disabled', 'disabled').text('LOADING...');
+    $.ajax({
+        url:'{% url 'article:comment_commit' %}',
+        type:'POST',
+        data:{'comment_content':$('#comment').val(),
+              'article_id':{{ article.id }},
+              'csrfmiddlewaretoken': $('[name="csrfmiddlewaretoken"]').val()},
+        success:function(data){
+            var dataObj=JSON.parse(data);
+            if(dataObj['status']){
+                $('button').removeAttr('disabled').text('发表');
+                $('p1').text(dataObj.message);
+                setTimeout(function(){ location.reload(); }, 1000);
+            }
+            else{
+                console.log(dataObj.message);
+                $('button').removeAttr('disabled').text('发表');
+                $('p1').text(dataObj.message);
+            }
+        }
+    })
+});
+{% endif %}
+    var testEditor;
+    $(function () {
+        testEditor = editormd.markdownToHTML("test-editormd-view", {//注意：这里是上面DIV的id
+            htmlDecode: "style,script,iframe",
+            emoji: true,
+            taskList: true,
+            tex: true, // 默认不解析
+            flowChart: true, // 默认不解析
+            sequenceDiagram: true, // 默认不解析
+            codeFold: true,
+    });});
+ </script>
+{% endblock %}

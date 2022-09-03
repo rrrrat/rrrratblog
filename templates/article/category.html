@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}
+{{ category.name }}
+{% endblock %}
+{% block css %}
+<link href="/static/editor.md/css/editormd.min.css" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+	<div class="content">
+		<div class="content-heading">
+			<div class="container container-full">
+                <h1 class="heading" align="center">{{ category.name }}</h1>
+                <div class="heading" align="center">分类创建时间：{{ category.created_time| date:"Y年m月d日 H:i:s" }}</div>
+			</div>
+		</div>
+        <div class="container container-full">
+			<div class="row row-fix">
+				<div class="col-md-3 content-fix" align="center">
+                    <div class="content-sub-heading"><h2>分类说明</h2></div>
+                    <blockquote>
+					<p>{{ category.show }}</p>
+                    </blockquote>
+				</div>
+				<div class="col-md-6" >
+                    <h2 class="content-sub-heading">「{{ category.name }}」分类最新文章</h2>
+                    {% for article in articles %}
+                    <div class="tile-wrap">
+                        <a class="tile" href="{% url 'article:article' id=article.id %}">
+                            <div class="tile-inner">
+                                <span>{{ article.title }}</span>
+                                <span style="float:right">作者：{{ article.author }}</span>
+                                <hr>
+                                <pre>{{ article.content | slice:":50" | safe }}</pre>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

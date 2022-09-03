@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}
+所有文章
+{% endblock %}
+{% block css %}
+<link href="/static/editor.md/css/editormd.min.css" rel="stylesheet" />
+{% endblock %}
+{% block content %}
+	<div class="content">
+		<div class="content-heading">
+			<div class="container container-full">
+                <h1 class="heading" align="center">所有文章</h1>
+			</div>
+		</div>
+        <div class="container container-full">
+			<div class="row row-fix">
+				<div class="col-md-3 content-fix" align="center">
+                    <h2 class="content-sub-heading">分类</h2>
+                <div class="col-xx">
+                    <div class="row">
+                        {% for category in categorys %}
+                            <div class="card">
+                                <div class="card-main">
+                                    <div class="card-inner">
+                                        <p class="card-heading"><a href="{% url 'article:category' id=category.id %}">{{ category.name}}</a></p>
+                                        <hr>
+                                        <p>{{ category.show }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+				</div>
+				<div class="col-md-8" >
+                    <h2 class="content-sub-heading" align="center">文章列表</h2>
+                    {% for article in articles %}
+                    <div class="tile-wrap">
+                        <a class="tile" href="{% url 'article:article' id=article.id %}">
+                            <div class="tile-inner">
+                                <span>{{ article.title }}</span>
+                                <span style="float:right">作者：{{ article.author }}</span>
+                                <hr>
+                                <pre>{{ article.content | slice:":50" | safe }}</pre>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

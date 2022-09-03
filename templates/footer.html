@@ -1,0 +1,40 @@
+	<footer class="footer">
+		<div class="container">
+			<a href="/">{{ global_title  }}</a>
+			<a href="http://beian.miit.gov.cn/">{{ website_number  }}</a>
+		</div>
+	</footer>
+	<div class="fbtn-container">
+		<div class="fbtn-inner">
+			<a class="fbtn fbtn-red fbtn-lg" data-toggle="dropdown"><span class="fbtn-text">Share</span><span class="fbtn-ori icon">add</span><span class="fbtn-sub icon">close</span></a>
+			<div class="fbtn-dropdown">
+				<a class="fbtn" href="javascript:share_to_qq();"><span class="fbtn-text">分享到QQ空间</span><span class="fa fa-qq"></span></a>
+				<a class="fbtn fbtn-blue" href="javascript:share_to_tieba();"><span class="fbtn-text">分享到百度贴吧</span><span class="icon">B</span></a>
+				<a class="fbtn fbtn-alt" href="javascript:share_to_weibo();"><span class="fbtn-text">分享到新浪微博</span><span class="fa fa-weibo"></span></a>
+			</div>
+		</div>
+	</div>
+
+	<script src="http://apps.bdimg.com/libs/jquery/1.11.3/jquery.min.js"></script>
+    {% load static %}
+	<script src="{% static 'js/base.min.js' %}"></script>
+    <script type="text/javascript">
+        function share_to_qq(){
+            var url = 'https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=' + window.location.href +
+                '&sharesource=qzone&title=' + document.title
+            openwindow(url,'分享到QQ空间','632','388');
+        }
+        function share_to_weibo(){
+            var url = 'http://service.weibo.com/share/share.php?url=' + window.location.href + '&title=' + document.title
+            openwindow(url,'分享到新浪微博','632','388');
+        }
+        function share_to_tieba(){
+           var url = 'http://tieba.baidu.com/f/commit/share/openShareApi?url=' + window.location.href + '&title=' + document.title
+           openwindow(url,'分享到百度贴吧','632','388');
+        }
+        function openwindow(url,name,iWidth,iHeight){
+              var iTop = (window.screen.height-30-iHeight)/2;
+              var iLeft = (window.screen.width-10-iWidth)/2;
+              window.open(url,name,'height='+iHeight+',,innerHeight='+iHeight+',width='+iWidth+',innerWidth='+iWidth+',top='+iTop+',left='+iLeft+',toolbar=no,menubar=no,scrollbars=auto,resizeable=no,location=no,status=no');
+             }
+    </script>

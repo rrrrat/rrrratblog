@@ -1,0 +1,48 @@
+name: rrrratblog
+channels:
+  - defaults
+dependencies:
+  - asgiref=3.4.1
+  - ca-certificates=2021.7.5
+  - certifi=2021.5.30
+  - django=3.2.5
+  - freetype=2.10.4
+  - jpeg=9b
+  - krb5=1.19.2
+  - lcms2=2.12
+  - libpng=1.6.37
+  - libpq=12.2
+  - libtiff=4.2.0
+  - libwebp-base=1.2.0
+  - lz4-c=1.9.3
+  - olefile=0.46
+  - openjpeg=2.3.0
+  - openssl=1.1.1k
+  - pillow=8.3.1
+  - pip=21.0.1
+  - psycopg2=2.8.6
+  - python=3.8.11
+  - pytz=2021.1
+  - setuptools=52.0.0
+  - sqlite=3.36.0
+  - sqlparse=0.4.1
+  - tk=8.6.10
+  - typing_extensions=3.10.0.0
+  - wheel=0.37.0
+  - xz=5.2.5
+  - zlib=1.2.11
+  - zstd=1.4.9
+  - pip:
+    - charset-normalizer==2.0.4
+    - cos-python-sdk-v5==1.9.8
+    - crcmod==1.7
+    - dicttoxml==1.7.4
+    - django-cors-headers==3.8.0
+    - django-mdeditor==0.1.18
+    - idna==3.2
+    - pycryptodome==3.10.1
+    - requests==2.26.0
+    - six==1.16.0
+    - urllib3==1.26.6
+prefix: /Users/tangchaolizi/.conda/envs/rrrratblog
+
